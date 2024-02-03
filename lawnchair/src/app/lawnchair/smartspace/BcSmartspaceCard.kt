@@ -25,6 +25,7 @@ class BcSmartspaceCard @JvmOverloads constructor(
 
     private var baseActionIconSubtitleView: DoubleShadowTextView? = null
     private var dateView: IcuDateTextView? = null
+    private var pwView: PWView? = null
     private var dndImageView: ImageView? = null
     private var extrasGroup: ViewGroup? = null
     private var iconDrawable: DoubleShadowIconDrawable? = null
@@ -40,6 +41,7 @@ class BcSmartspaceCard @JvmOverloads constructor(
     override fun onFinishInflate() {
         super.onFinishInflate()
         dateView = findViewById(R.id.date)
+        pwView = findViewById(R.id.pw_layout)
         titleTextView = findViewById(R.id.title_text)
         subtitleTextView = findViewById(R.id.subtitle_text)
         baseActionIconSubtitleView = findViewById(R.id.base_action_icon_subtitle)
@@ -105,6 +107,8 @@ class BcSmartspaceCard @JvmOverloads constructor(
             )
             BcSmartSpaceUtil.setOnClickListener(it, calendarAction, null, "BcSmartspaceCard")
         }
+
+        pwView?.setData(headerAction?.id,baseAction?.id)
 
         when {
             headerAction.hasIntent -> {

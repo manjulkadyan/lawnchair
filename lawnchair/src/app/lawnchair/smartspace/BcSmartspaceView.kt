@@ -34,6 +34,8 @@ class BcSmartspaceView @JvmOverloads constructor(
     private var scrollState = ViewPager.SCROLL_STATE_IDLE
     private var pendingTargets: List<SmartspaceTarget>? = null
     private var runningAnimation: Animator? = null
+    var parentPaddingTop = 0
+
 
     override fun onFinishInflate() {
         super.onFinishInflate()
@@ -41,30 +43,32 @@ class BcSmartspaceView @JvmOverloads constructor(
         viewPager.isSaveEnabled = false
         indicator = findViewById(R.id.smartspace_page_indicator)
 
-        viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
-            override fun onPageScrolled(
-                position: Int,
-                positionOffset: Float,
-                positionOffsetPixels: Int,
-            ) {
-                indicator.setPageOffset(position, positionOffset)
-            }
+        viewPager.addOnPageChangeListener(
+            object : ViewPager.OnPageChangeListener {
+                override fun onPageScrolled(
+                    position: Int,
+                    positionOffset: Float,
+                    positionOffsetPixels: Int,
+                ) {
+                    indicator.setPageOffset(position, positionOffset)
+                }
 
-            override fun onPageSelected(position: Int) {
-            }
+                override fun onPageSelected(position: Int) {
+                }
 
-            override fun onPageScrollStateChanged(state: Int) {
-                scrollState = state
-                if (state == 0) {
-                    pendingTargets?.let {
-                        pendingTargets = null
-                        onSmartspaceTargetsUpdate(it)
+                override fun onPageScrollStateChanged(state: Int) {
+                    scrollState = state
+                    if (state == 0) {
+                        pendingTargets?.let {
+                            pendingTargets = null
+                            onSmartspaceTargetsUpdate(it)
+                        }
                     }
                 }
-            }
-        })
+            },
+        )
 
-        val targets = if (previewMode) provider.previewTargets else provider.targets
+        val targets = provider.previewTargets
         repeatOnAttached {
             viewPager.adapter = adapter
             targets
@@ -73,28 +77,6 @@ class BcSmartspaceView @JvmOverloads constructor(
         }
     }
 
-    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        val height = MeasureSpec.getSize(heightMeasureSpec)
-        val smartspaceHeight =
-            context.resources.getDimensionPixelSize(R.dimen.enhanced_smartspace_height)
-        if (height <= 0 || height >= smartspaceHeight) {
-            super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-            scaleX = 1f
-            scaleY = 1f
-            return
-        }
-
-        val scale = height.toFloat() / smartspaceHeight.toFloat()
-        val width = (MeasureSpec.getSize(widthMeasureSpec).toFloat() / scale).roundToInt()
-        super.onMeasure(
-            makeMeasureSpec(width, EXACTLY),
-            makeMeasureSpec(smartspaceHeight, EXACTLY),
-        )
-        scaleX = scale
-        scaleY = scale
-        pivotX = 0f
-        pivotY = smartspaceHeight.toFloat() / 2f
-    }
 
     override fun setOnLongClickListener(l: OnLongClickListener?) {
         viewPager.setOnLongClickListener(l)

@@ -33,5 +33,6 @@ data class SmartspaceTarget(
         FEATURE_TIMER,
         FEATURE_STOPWATCH,
         FEATURE_UPCOMING_ALARM,
+        FEATURE_PW
     }
 }

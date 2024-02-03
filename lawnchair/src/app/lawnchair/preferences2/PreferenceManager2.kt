@@ -416,6 +416,10 @@ class PreferenceManager2 private constructor(private val context: Context) : Pre
         key = booleanPreferencesKey("enable_smartspace_battery_status"),
         defaultValue = true,
     )
+    val smartspacePWStatus = preference(
+        key = booleanPreferencesKey("enable_smartspace_pw_status"),
+        defaultValue = true,
+    )
 
     val smartspaceNowPlaying = preference(
         key = booleanPreferencesKey("enable_smartspace_now_playing"),
@@ -441,6 +445,13 @@ class PreferenceManager2 private constructor(private val context: Context) : Pre
 
     val smartspaceCalendar = preference(
         key = stringPreferencesKey(name = "smartspace_calendar"),
+        defaultValue = SmartspaceCalendar.fromString(context.getString(R.string.config_default_smart_space_calendar)),
+        parse = { SmartspaceCalendar.fromString(it) },
+        save = { it.toString() },
+    )
+
+    val smartspacePW = preference(
+        key = stringPreferencesKey(name = "smartspace_pw"),
         defaultValue = SmartspaceCalendar.fromString(context.getString(R.string.config_default_smart_space_calendar)),
         parse = { SmartspaceCalendar.fromString(it) },
         save = { it.toString() },

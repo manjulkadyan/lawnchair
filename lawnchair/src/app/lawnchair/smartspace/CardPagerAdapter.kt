@@ -86,6 +86,7 @@ class CardPagerAdapter(context: Context) : PagerAdapter() {
     ): BcSmartspaceCard {
         val layout = when (featureType) {
             SmartspaceTarget.FeatureType.FEATURE_WEATHER -> R.layout.smartspace_card_date
+            SmartspaceTarget.FeatureType.FEATURE_PW -> R.layout.smartspace_card_pw
             else -> R.layout.smartspace_card
         }
         return LayoutInflater.from(container.context)

@@ -7,6 +7,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
+import android.view.ViewTreeObserver
 import android.widget.FrameLayout
 import app.lawnchair.launcher
 import app.lawnchair.ui.preferences.PreferenceActivity
@@ -34,6 +35,22 @@ class SmartspaceViewContainer @JvmOverloads constructor(
             true
         }
         addView(smartspaceView)
+        // After adding the child view to the parent
+        smartspaceView.post {
+            smartspaceView.setPadding(0, 0, 0, 0)
+        }
+        viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                // Adjust padding here
+                if (paddingTop > 0) {
+                    setPadding(paddingLeft, 0, paddingRight, paddingBottom)
+                    //invalidate()
+                }
+                // Optional: Remove the global layout listener if it's a one-time adjustment
+                // viewTreeObserver.removeOnGlobalLayoutListener(this)
+            }
+        })
+
     }
 
     private fun openOptions() {
@@ -68,5 +85,25 @@ class SmartspaceViewContainer @JvmOverloads constructor(
     override fun cancelLongPress() {
         super.cancelLongPress()
         longPressHelper.cancelLongPress()
+    }
+
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+        smartspaceView.post {
+            smartspaceView.setPadding(0, 0, 0, 0)
+        }
+        requestLayout()
+    }
+
+    override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
+        super.onLayout(changed, left, top, right, bottom)
+
+        if (this.paddingTop > 0) {
+            setPadding(paddingLeft, 0, paddingRight, paddingBottom)
+        }
+        smartspaceView.post {
+            smartspaceView.setPadding(0, 0, 0, 0)
+        }
+        requestLayout()
     }
 }

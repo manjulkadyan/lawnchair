@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<app.lawnchair.smartspace.BcSmartspaceCard xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:baselineAligned="false"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp">
+
+    <app.lawnchair.smartspace.PWView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/pw_layout"        />
+
+</app.lawnchair.smartspace.BcSmartspaceCard>

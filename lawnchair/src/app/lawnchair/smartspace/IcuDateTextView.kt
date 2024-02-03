@@ -67,7 +67,7 @@ class IcuDateTextView @JvmOverloads constructor(
         if (isShown) {
             val timeText = getTimeText(updateFormatter)
             if (text != timeText) {
-                textAlignment = if (shouldAlignToTextEnd()) TEXT_ALIGNMENT_TEXT_END else TEXT_ALIGNMENT_TEXT_START
+                //textAlignment = if (shouldAlignToTextEnd()) TEXT_ALIGNMENT_TEXT_END else TEXT_ALIGNMENT_TEXT_START
                 text = timeText
                 contentDescription = timeText
             }
@@ -135,6 +135,7 @@ class IcuDateTextView @JvmOverloads constructor(
         } else {
             format = context.getString(R.string.smartspace_icu_date_pattern_gregorian_wday_month_day_no_year)
         }
+        format = context.getString(R.string.smartspace_icu_date_pattern_gregorian_time_12h) + context.getString(R.string.smartspace_icu_date_pattern_gregorian_date)
         val formatter = DateFormat.getInstanceForSkeleton(format, Locale.getDefault())
         formatter.setContext(DisplayContext.CAPITALIZATION_FOR_STANDALONE)
         return { formatter.format(it) }

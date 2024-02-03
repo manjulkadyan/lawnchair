@@ -18,6 +18,7 @@ import kotlinx.coroutines.flow.shareIn
 class SmartspaceProvider private constructor(context: Context) {
 
     val dataSources = listOf(
+        PWProvider(context),
         SmartspaceWidgetReader(context),
         BatteryStatusProvider(context),
         NowPlayingProvider(context),
@@ -31,14 +32,7 @@ class SmartspaceProvider private constructor(context: Context) {
             SharingStarted.WhileSubscribed(),
             replay = 1,
         )
-    val targets = state
-        .map {
-            if (it.requiresSetup.isNotEmpty()) {
-                listOf(setupTarget) + it.targets
-            } else {
-                it.targets
-            }
-        }
+
     val previewTargets = state
         .map { it.targets }
 
