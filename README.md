@@ -1,5 +1,6 @@
 # Enhanced Lawnchair Launcher Custom UI Widget
 This project extends the Lawnchair Launcher by adding a custom UI widget on the home screen that enhances user interaction and provides useful information at a glance. The widget introduces a sophisticated design with time and date display, a dynamic weekly calendar view, and inspirational quotes that update hourly.
+![Alt text](/lawnchair/Screenshot_20240203_175809.png?raw=true)
 
 # Features
 Time and Date Display: Updates in real-time to keep you on schedule.
