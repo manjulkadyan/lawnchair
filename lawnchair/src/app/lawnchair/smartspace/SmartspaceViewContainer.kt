@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Rect
 import android.graphics.RectF
 import android.util.AttributeSet
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -35,22 +36,31 @@ class SmartspaceViewContainer @JvmOverloads constructor(
             true
         }
         addView(smartspaceView)
-        // After adding the child view to the parent
-        smartspaceView.post {
-            smartspaceView.setPadding(0, 0, 0, 0)
-        }
-        viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
-            override fun onGlobalLayout() {
-                // Adjust padding here
-                if (paddingTop > 0) {
-                    setPadding(paddingLeft, 0, paddingRight, paddingBottom)
-                    //invalidate()
-                }
-                // Optional: Remove the global layout listener if it's a one-time adjustment
-                // viewTreeObserver.removeOnGlobalLayoutListener(this)
-            }
-        })
+        Log.d(
+            "Manjul",
+            "init called with:  padding = $paddingTop",
+        )
+    }
 
+    override fun setPadding(left: Int, top: Int, right: Int, bottom: Int) {
+        super.setPadding(left, 0, right, bottom)
+        Log.d(
+            "Manjul",
+            "setPadding() called with: left = $left, top = $top, right = $right, bottom = $bottom",
+        )
+    }
+
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        Log.d("Manjul", "onAttachedToWindow() called , paddingTop = $paddingTop")
+    }
+
+    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
+        Log.d(
+            "Manjul",
+            "onMeasure() called with: widthMeasureSpec = $widthMeasureSpec, heightMeasureSpec = $heightMeasureSpec, paddingTop = $paddingTop",
+        )
     }
 
     private fun openOptions() {
@@ -87,23 +97,11 @@ class SmartspaceViewContainer @JvmOverloads constructor(
         longPressHelper.cancelLongPress()
     }
 
-    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-        smartspaceView.post {
-            smartspaceView.setPadding(0, 0, 0, 0)
-        }
-        requestLayout()
-    }
-
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
         super.onLayout(changed, left, top, right, bottom)
-
-        if (this.paddingTop > 0) {
-            setPadding(paddingLeft, 0, paddingRight, paddingBottom)
-        }
-        smartspaceView.post {
-            smartspaceView.setPadding(0, 0, 0, 0)
-        }
-        requestLayout()
+        Log.d(
+            "Manjul",
+            "onLayout() called with: changed = $changed, padding = $paddingTop",
+        )
     }
 }
